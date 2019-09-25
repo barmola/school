@@ -9,7 +9,7 @@
 
     justify-content: center;
     align-content: center;
-    height: 400px;
+    height: 450px;
     width: 400px;
 }
 h3{
@@ -22,8 +22,8 @@ h3{
     align-items: center;
 }
 .inputMargin{
-    margin-top: 20px;
-    width: 150px;
+    margin-top: 20px !important;
+    width: 250px !important;
 }
 .loginButton{
     margin-top: 40px !important;
