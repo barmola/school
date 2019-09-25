@@ -1,0 +1,19 @@
+.navbar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 60px;
+    background-color:#308FFF;
+    color: white;
+}
+ul{
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    float: right;
+}
+li:hover{
+    cursor: pointer;
+}

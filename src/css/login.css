@@ -1,0 +1,23 @@
+.container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.paper{
+    margin-top: 100px;
+
+    justify-content: center;
+    align-content: center;
+    height: 400px;
+    width: 400px;
+}
+h3{
+    color:#308FFF;
+}
+.input{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
