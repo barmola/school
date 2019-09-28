@@ -1,0 +1,30 @@
+.Heading{
+    font-weight: 300;
+    text-align: center;
+
+}
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.table{
+    width: 850px;
+}
+.edit:hover{
+color: #308FFF !important;
+cursor: pointer;
+font-size: 14px;
+}
+.trash:hover{
+    color: red !important;
+    cursor: pointer;
+    font-size: 14px;
+    }
+.dialog{
+    min-height: 100% !important;
+    padding: 30px !important;
+    
+}
+.dialog::-webkit-scrollbar { display: none !important }
+Dialog::-webkit-scrollbar { display: none !important }

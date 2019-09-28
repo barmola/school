@@ -6,14 +6,36 @@
     background-color:#308FFF;
     color: white;
 }
-ul{
+.navbar_ul{
     width: 50%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    list-style: none;
+    list-style: none !important;
     float: right;
+    line-height: 0px;
+    color: white !important;
+    
 }
 li:hover{
     cursor: pointer;
+    font-weight: bolder;
+    color: lightgreen;
+  
+}
+h3{
+    color: white !important;
+}
+li{
+    line-height: 0px;
+    list-style: none !important;
+    
+
+    
+}
+.navStyle{
+    color: white;
+    list-style: none !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Paper, TextField, Input, InputAdornment, FormHelperText, InputLabel,Button } from "@material-ui/core";
+import { Paper, TextField, Input, InputAdornment, FormHelperText, InputLabel,Button,Typography } from "@material-ui/core";
 import "../css/create_account.css"
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -16,7 +16,9 @@ export default class CreateAccount extends Component {
             name:"",
             email:"",
             pass:"",
-            isLoggedin: false
+            isLoggedin: false,
+            isCreated:false,
+            isAccount:true,
         }
         this.onCreateAccount=this.onCreateAccount.bind(this)
         this.handleChange=this.handleChange.bind(this)
@@ -36,9 +38,11 @@ export default class CreateAccount extends Component {
         event.preventDefault();
         this.setState(this.state);
         console.log("Register Data:",this.state)
-        this.onDatabase();
-        
-
+        this.onDatabase() 
+        this.setState({
+            isCreated:true,
+            isAccount:false
+        })
     }
 
     async onDatabase(){
@@ -49,7 +53,7 @@ export default class CreateAccount extends Component {
             pass:this.state.pass
         }
         try{
-            axios.post("http://localhost:3200/account",account)
+            axios.post("http://localhost:3300/account",account)
             console.log("Account Created on Database:",account);
 
         }catch{
@@ -60,9 +64,9 @@ export default class CreateAccount extends Component {
     render() {
         return (
             <div className="container">
-                <Paper className="paper">
+            {this.state.isAccount &&  <Paper className="paper">
                          <div >
-                        <h3 className="input">Create Account</h3>
+                        <h3 className="heading">Create Account</h3>
                         
                         <form className="input">
                         <TextField
@@ -114,7 +118,20 @@ export default class CreateAccount extends Component {
                   
                        
                     </div>
-                </Paper>
+                    <p className="loginLink" onClick={this.props.logCall}>Login</p>
+
+                </Paper>}
+
+                {this.state.isCreated &&  <Paper className="paper2">
+                        <div className="accountInfo">
+                            <Typography variant="h6">Hi! {this.state.name}</Typography>
+                            <Typography variant="h6" >Your Account has been Created Successfully!</Typography>
+                            <Typography variant="h6" >Kindly note down your credentials</Typography>
+                            <Typography variant="subtitle1" >Username: {this.state.username}</Typography>
+                            <Typography variant="subtitle1">Password:{this.state.pass}</Typography>
+                            <p className="loginLink" onClick={this.props.logCall}>Login</p>
+                        </div>
+                </Paper>}
                 
 
             </div>

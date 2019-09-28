@@ -5,22 +5,25 @@
     align-content: center;
 }
 .paper{
+    background-image: url("../images/schoolBack.png");
+    background-size: cover;
     margin-top: 100px;
-
     justify-content: center;
     align-content: center;
     height: 400px;
     width: 400px;
 }
-h3{
-    color:#308FFF;
+.login{
+    color:#308FFF !important;
 }
-.input{   
+.input{  
+    margin-top: 50px; 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 .inputMargin{
     margin-top: 20px;
     width: 150px;
@@ -34,4 +37,5 @@ h3{
     margin-top: 60px;
     cursor: pointer;
     color: #308FFF;
+   
 }
