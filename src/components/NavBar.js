@@ -36,10 +36,10 @@ export default class NavBar extends Component {
                         <Link className="navStyle" exact to="/Buses" onClick={this.props.onNavigBus}>
                         <li><FontAwesomeIcon icon={faBus}/>Buses  </li>
                         </Link>
-                        <Link className="navStyle" exact to="/Users" onClick={this.props.onNavigUser}>
+                        <Link className="navStyle" exact to="/Users" onClick={this.props.onNavig}>
                         <li><FontAwesomeIcon icon={faUser}/>Users  </li>
                         </Link>
-                        <Link className="navStyle" exact to="/Login" >
+                        <Link className="navStyle" exact to="/login " >
                         <li><FontAwesomeIcon icon={faPowerOff}/> </li>
                         </Link>
                     </ul>

@@ -12,6 +12,7 @@ import Bus from "./components/Buses/Bus"
 import Workers from "./components/Workers/Workers"
 import {BrowserRouter as Router,Switch,Route} from "react-router-dom"
 
+
 export default class App extends Component{
   constructor(props) {
     super(props)
@@ -70,14 +71,14 @@ render(){
     console.log("state changed")
 }
 
-
-
+//<Login regCall={this.showRegisterBox}/>
+//<CreateAccount logCall={this.showLoginBox} />
   return (
     <Router>
     <div className="App">
       {this.state.isNavbarLogin &&<NavBar onNavig={this.goto}    />}
-      {this.state.isLoggedIn && <Login regCall={this.showRegisterBox}/>}
-      {this.state.isRegister && <CreateAccount logCall={this.showLoginBox} />}
+      {this.state.isLoggedIn && <Route path="/login" exact strict render={props => <Login regCall = {this.showRegisterBox} />} />}
+      {this.state.isRegister && <Route render={props => <CreateAccount logCall = {this.showLoginBox} />} />}
       
   {this.props.test  &&  <div>{makefalse()}{this.state.removeLoginTrue && <LoginTrue />} 
       
@@ -86,17 +87,11 @@ render(){
       <Route path="/Workers" exact component={Workers}/>
       <Route path="/Users" exact component={Users}/>
       <Route path="/Buses" exact component={Bus}/>
-      <Route path="/Login" exact component={Login}/>
+      <Route path="/" exact component={Login}/>
       
       
       
       </div> } 
-
-      {/* {this.state.gotoStudent && <Students/>}
-      {this.state.gotoTeacher && <Teachers/>}
-      {this.state.gotoWorkers && <Workers/>}
-      {this.state.gotoUsers && <Users/>}
-      {this.state.gotoBus && <Bus/>} */}
      
      
       </div>      
