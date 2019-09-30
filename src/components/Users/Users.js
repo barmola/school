@@ -9,6 +9,11 @@ import TableRow from '@material-ui/core/TableRow';
 import {Paper,Button,TextField,Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle,Grid} from '@material-ui/core';
 import {faUserEdit,faTrash} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from "axios"
+
+
+
+
 const useStyles = makeStyles(theme => ({
     form: {
       display: 'flex',
@@ -26,41 +31,107 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-  
+  var data2={},data3={}
 export default class Users extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
              Students:[],
+             username:"",
+             name:"",
+             email:"",
+             pass:"",
              setOpen:false,
              open:false,
              openTrash:false,
              setOpenTrash:false,
+             isCliked:false,
             
         }
         this.handleClickOpen=this.handleClickOpen.bind(this)
         this.handleClose=this.handleClose.bind(this)
         this.handleTrashOpen=this.handleTrashOpen.bind(this)
         this.handleTrashClose=this.handleTrashClose.bind(this)
-        this.editProduct=this.editProduct.bind(this)
+        this.handleChange=this.handleChange.bind(this)
+        this.onEditSubmit=this.onEditSubmit.bind(this)
+        this.deleteData=this.deleteData.bind(this)
+        
     }
 
-  
+  componentWillUpdate(){
+    this.componentWillMount();
+  }
 
-    editProduct(name){
-      console.log(name) 
+    handleChange(event){
+      const name=event.target.name;
+      const value= event.target.value;
+      this.setState({
+        [name]:value
+      })
     }
+
+    onEditSubmit(event){
+      event.preventDefault()
+      this.setState(this.state)
+      console.log("Edited Data: ",this.state)
+      axios.put("http://localhost:3300/account/"+data2._id,{
+        username:this.state.username,
+        name:""?this.prevState.name:this.state.name,
+        email:this.state.email,
+        pass:this.state.pass
+      }) .then(res=>{
+        console.log("Updated Data:",res.data)
+      }).then(this.setState({
+        username:"",
+        name:"",
+        email:"",
+        pass:"",
+        setOpen:false,
+        setOpen:false
+      }))
+      this.handleClose();
+      this.componentWillUpdate();
+    }
+
+    deleteData(event){
+      event.preventDefault();
+      axios.delete("http://localhost:3300/account/"+data2._id).then(res=>{
+        console.log(res.data)
+      })
+      this.handleTrashClose();
+      this.componentWillUpdate();
+    }
+
+wrapperDelete(id){
+  this.setState({
+    isClicked:true
+  })
+  this.handleTrashOpen();
+  this.props.editUser(id);
+}
+
+
+   wrapper(id){
+     this.setState({
+       isClicked:true
+     })
+     this.handleClickOpen();
+     this.props.editUser(id);
+    
+   }
      
-    handleClickOpen = (event)=> {
-  
+    handleClickOpen = ()=> {
+     
        this.setState({
            setOpen:true,
            open:true,
        })
-      
-        
+     
       };
+
+
+
     handleTrashOpen=()=>{
       this.setState({
         setOpenTrash:true,
@@ -91,13 +162,27 @@ export default class Users extends Component {
                 Students:data
             })
         })
+        
     }
     
     render( ) {
+      var data = [];
+      
+      if(this.state.isClicked){
+      data=(this.state.Students.filter((st)=>{
+        // console.log("props:",this.props.uid,"row id:",st._id)
+       
+          return(this.props.uid.toString().search(st._id.toString())!==-1)
+      }))
      
+      data2=data[0];
+      data3=data[0];
+      // console.log('filter data=',data);
+    }
         return (
           
             <div>
+              {/* {console.log("User:",this.props.uid)} */}
                 <h1 className="Heading">{this.state.Students.length} Users</h1>
 
                 <div className="content">
@@ -121,8 +206,8 @@ export default class Users extends Component {
               <TableCell align="right">{row.username}</TableCell>
               <TableCell align="right">{row.email}</TableCell>
               <TableCell align="right">{row.pass}</TableCell>
-              <TableCell align="right"><FontAwesomeIcon icon={faUserEdit} onClick={this.handleClickOpen} className="edit" /></TableCell>
-              <TableCell align="right"><FontAwesomeIcon icon={faTrash}  onClick={this.handleTrashOpen} className="trash"/></TableCell>
+              <TableCell align="right"><FontAwesomeIcon icon={faUserEdit}  onClick={()=>this.wrapper(row._id)} className="edit" /></TableCell>
+              <TableCell align="right"><FontAwesomeIcon icon={faTrash}  onClick={()=>this.wrapperDelete(row._id)} className="trash"/></TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -153,21 +238,26 @@ export default class Users extends Component {
     <Dialog open={this.state.open} onClose={this.handleClose} className="dialog"
      fullWidth="true"
      maxWidth="md">
+       <form>
         <DialogTitle id="form-dialog-title">Edit</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Edit User Details
+            Edit <span className="edit2"></span> Details
           </DialogContentText>
             <Grid container spacing={3} className="dialog">
+              
                 <Grid item xs={3} >
                 <TextField
         id="outlined-email-input"
         label="Name"
         type="text"
-        name="name" 
+        name="name"
+        value={this.state.name}
+        onChange={this.handleChange} 
         margin="normal"
         variant="outlined"
       />
+     
                 </Grid>
            
             <Grid item xs={3}>
@@ -176,6 +266,8 @@ export default class Users extends Component {
         label="Username"
         type="text"
         name="username"
+        value={this.state.username}
+        onChange={this.handleChange}
         margin="normal"
         variant="outlined"
       />
@@ -186,6 +278,8 @@ export default class Users extends Component {
         label="Email"
         type="text"
         name="email"
+        value={this.state.email}
+        onChange={this.handleChange}
         margin="normal"
         variant="outlined"
       />
@@ -195,21 +289,25 @@ export default class Users extends Component {
         id="outlined-email-input"
         label="Password"
         type="text"
-        name="Pass"
+        name="pass"
+        value={this.state.pass}
+        onChange={this.handleChange}
         margin="normal"
         variant="outlined"
       />
                 </Grid>
+               
             </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={this.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={this.handleClose} color="primary">
+          <Button type="submit" onClick={this.onEditSubmit} color="primary">
             Update
           </Button>
         </DialogActions>
+        </form>
       </Dialog>
 
 
@@ -226,18 +324,18 @@ export default class Users extends Component {
         open={this.state.openTrash}
         onClose={this.handleTrashClose}
       >
-        <DialogTitle id="alert-dialog-title">{"Delete"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Delete"} <span className="edit2">{data3.name}</span></DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-           Are you sure you want to delete {this.state.Students.name}?
+           Are you sure you want to delete?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={this.handleTrashClose} color="primary">
-           I am Sure
+           No
           </Button>
-          <Button onClick={this.handleTrashClose} color="primary" autoFocus>
-            No
+          <Button onClick={this.deleteData} color="primary" autoFocus>
+            YES I AM SURE
           </Button>
         </DialogActions>
       </Dialog>

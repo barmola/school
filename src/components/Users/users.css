@@ -11,15 +11,21 @@
 .table{
     width: 850px;
 }
+.edit{
+    font-size: 18px;
+}
 .edit:hover{
 color: #308FFF !important;
 cursor: pointer;
-font-size: 14px;
+font-size: 18px;
+}
+.trash{
+    font-size: 18px;
 }
 .trash:hover{
     color: red !important;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 18px;
     }
 .dialog{
     min-height: 100% !important;
@@ -28,3 +34,10 @@ font-size: 14px;
 }
 .dialog::-webkit-scrollbar { display: none !important }
 Dialog::-webkit-scrollbar { display: none !important }
+
+
+.edit2{
+    color: #308FFF;
+    font-weight: bold;
+    font-size: 18px;
+}

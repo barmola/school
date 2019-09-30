@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faUserTie,faSchool,faUserGraduate,faUserAstronaut,faBus,faUser,faPowerOff} from "@fortawesome/free-solid-svg-icons"
 import {Link} from "react-router-dom"
 import App from '../App'
+import Login from "../components/Login"
 
 
 export default class NavBar extends Component {
@@ -15,6 +16,8 @@ export default class NavBar extends Component {
         }
        
     }
+
+    
  
     
     render() {
@@ -27,13 +30,13 @@ export default class NavBar extends Component {
                         <Link className="navStyle" exact to="/Students" onClick={this.props.onNavig}>
                         <li ><FontAwesomeIcon icon={faUserTie}/>  Students</li>
                         </Link>
-                        <Link className="navStyle" exact to="/Teachers" onClick={this.props.onNavigTeacher}>
+                        <Link className="navStyle" exact to="/Teachers" onClick={this.props.onNavig}>
                         <li><FontAwesomeIcon icon={faUserGraduate}/>  Teachers</li>
                         </Link>
-                        <Link className="navStyle" exact to="/Workers" onClick={this.props.onNavigWorker}>
+                        <Link className="navStyle" exact to="/Workers" onClick={this.props.onNavig}>
                         <li><FontAwesomeIcon icon={faUserAstronaut}/>  Workers</li>
                         </Link>
-                        <Link className="navStyle" exact to="/Buses" onClick={this.props.onNavigBus}>
+                        <Link className="navStyle" exact to="/Buses" onClick={this.props.onNavig}>
                         <li><FontAwesomeIcon icon={faBus}/>Buses  </li>
                         </Link>
                         <Link className="navStyle" exact to="/Users" onClick={this.props.onNavig}>

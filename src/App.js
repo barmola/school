@@ -10,7 +10,7 @@ import Teachers from "./components/Teachers/Teachers"
 import Users from "./components/Users/Users"
 import Bus from "./components/Buses/Bus"
 import Workers from "./components/Workers/Workers"
-import {BrowserRouter as Router,Switch,Route} from "react-router-dom"
+import {BrowserRouter as Router,Switch,Route,Redirect} from "react-router-dom"
 
 
 export default class App extends Component{
@@ -26,11 +26,13 @@ export default class App extends Component{
        gotoTeacher:false,
        gotoWorkers:false,
        gotoUsers:false,
-       removeLoginTrue:true
+       removeLoginTrue:true,
+       uID:""
     }
     this.showRegisterBox=this.showRegisterBox.bind(this)
     this.showLoginBox=this.showLoginBox.bind(this)
     this.goto=this.goto.bind(this)
+    this.editUser=this.editUser.bind(this)
    
   //  this.makefalse=this.makefalse.bind(this)
   }
@@ -57,6 +59,14 @@ export default class App extends Component{
     })
   }
 
+
+  editUser=userID=>{
+    this.setState({
+      uID:userID
+    })
+      }
+    
+
 render(){
   
     const  makefalse=()=>{
@@ -68,13 +78,16 @@ render(){
           isNavbarLogout:true
     })
   }
-    console.log("state changed")
+    
 }
 
 //<Login regCall={this.showRegisterBox}/>
 //<CreateAccount logCall={this.showLoginBox} />
   return (
+    
     <Router>
+          
+        
     <div className="App">
       {this.state.isNavbarLogin &&<NavBar onNavig={this.goto}    />}
       {this.state.isLoggedIn && <Route path="/login" exact strict render={props => <Login regCall = {this.showRegisterBox} />} />}
@@ -85,7 +98,7 @@ render(){
       <Route path="/Students" exact component={Students}/>
       <Route path="/Teachers" exact component={Teachers}/>
       <Route path="/Workers" exact component={Workers}/>
-      <Route path="/Users" exact component={Users}/>
+      <Route path="/Users" exact render={props=><Users editUser={this.editUser} uid={this.state.uID}/>} />
       <Route path="/Buses" exact component={Bus}/>
       <Route path="/" exact component={Login}/>
       
