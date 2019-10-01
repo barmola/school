@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-  var data2={},data3={}
+  var data2={}
 export default class Users extends Component {
     constructor(props) {
         super(props)
@@ -76,10 +76,10 @@ export default class Users extends Component {
       this.setState(this.state)
       console.log("Edited Data: ",this.state)
       axios.put("http://localhost:3300/account/"+data2._id,{
-        username:this.state.username,
-        name:""?this.prevState.name:this.state.name,
-        email:this.state.email,
-        pass:this.state.pass
+        username:this.state.username==="" ? data2.username:this.state.username,
+        name:this.state.name ===""? data2.name : this.state.name,
+        email:this.state.email === ""? data2.email:this.state.email,
+        pass:this.state.pass === ""? data2.pass: this.state.pass
       }) .then(res=>{
         console.log("Updated Data:",res.data)
       }).then(this.setState({
@@ -176,7 +176,7 @@ wrapperDelete(id){
       }))
      
       data2=data[0];
-      data3=data[0];
+      
       // console.log('filter data=',data);
     }
         return (
@@ -324,7 +324,7 @@ wrapperDelete(id){
         open={this.state.openTrash}
         onClose={this.handleTrashClose}
       >
-        <DialogTitle id="alert-dialog-title">{"Delete"} <span className="edit2">{data3.name}</span></DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Delete"} <span className="edit2"></span></DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
            Are you sure you want to delete?

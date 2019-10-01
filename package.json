@@ -16,7 +16,7 @@
     "typeface-roboto": "0.0.75"
   },
   "scripts": {
-    "start": "set PORT=3000/login && react-scripts start",
+    "start": "set PORT=2008 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
