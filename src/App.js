@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "typeface-roboto"
-
+import "./App.css"
 import NavBar from "./components/NavBar"
 import Login from "./components/Login"
 import CreateAccount from "./components/CreateAccount"
@@ -10,6 +10,7 @@ import Teachers from "./components/Teachers/Teachers"
 import Users from "./components/Users/Users"
 import Bus from "./components/Buses/Bus"
 import Workers from "./components/Workers/Workers"
+import Dashboard from "./Dashboard"
 import {BrowserRouter as Router,Switch,Route,Redirect} from "react-router-dom"
 
 
@@ -27,7 +28,8 @@ export default class App extends Component{
        gotoWorkers:false,
        gotoUsers:false,
        removeLoginTrue:true,
-       uID:""
+       uID:"",
+       sID:""
     }
     this.showRegisterBox=this.showRegisterBox.bind(this)
     this.showLoginBox=this.showLoginBox.bind(this)
@@ -55,7 +57,7 @@ export default class App extends Component{
   goto(){       //Go to Student Tab
     this.setState({
       gotoStudent:true,
-      removeLoginTrue:false
+      removeLoginTrue:true
     })
   }
 
@@ -65,6 +67,11 @@ export default class App extends Component{
       uID:userID
     })
       }
+  editStudent=studentID=>{
+    this.setState({
+      sID:studentID
+    })
+  }
     
 
 render(){
@@ -75,7 +82,9 @@ render(){
           isLoggedIn:false,
           isRegister:false,
           isNavbarLogin:true,
-          isNavbarLogout:true
+          isNavbarLogout:true,
+          removeLoginTrue:false
+          
     })
   }
     
@@ -93,13 +102,13 @@ render(){
       {this.state.isLoggedIn && <Route path="/login" exact strict render={props => <Login regCall = {this.showRegisterBox} />} />}
       {this.state.isRegister && <Route render={props => <CreateAccount logCall = {this.showLoginBox} />} />}
       
-  {this.props.test  &&  <div>{makefalse()}{this.state.removeLoginTrue && <LoginTrue />} 
+  {this.props.test  &&  <div>{makefalse()}{this.state.removeLoginTrue && <Route exact path="/dashboard" render={props => <Dashboard onNavig={this.goto}/>}  />}
       
-      <Route path="/Students" exact component={Students}/>
-      <Route path="/Teachers" exact component={Teachers}/>
-      <Route path="/Workers" exact component={Workers}/>
+  <Route path="/Students" exact render={props=><Students editStudent={this.editStudent} sid={this.state.sID}/>} />
+      <Route path="/Teachers" exact render={props=><Teachers editStudent={this.editStudent} sid={this.state.sID}/>}/>
+      <Route path="/Workers" exact render={props=><Workers editStudent={this.editStudent} sid={this.state.sID}/>}/>
       <Route path="/Users" exact render={props=><Users editUser={this.editUser} uid={this.state.uID}/>} />
-      <Route path="/Buses" exact component={Bus}/>
+      <Route path="/Buses" exact render={props=><Bus editStudent={this.editStudent} sid={this.state.sID}/>}/>
       <Route path="/" exact component={Login}/>
       
       

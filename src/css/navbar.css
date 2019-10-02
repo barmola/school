@@ -3,7 +3,7 @@
     justify-content: space-around;
     align-items: center;
     min-height: 60px;
-    background-color:#308FFF;
+    background-color:#00194F;
     color: white;
 }
 .navbar_ul{
@@ -20,7 +20,7 @@
 li:hover{
     cursor: pointer;
     font-weight: bolder;
-    color: lightgreen;
+    color: #308FFF;
   
 }
 h3{
@@ -38,4 +38,10 @@ li{
     list-style: none !important;
     text-decoration: none !important;
     text-decoration-line: none !important;
+}
+.logo2{
+    height: 40px;
+    margin-bottom: 0px;
+    position: relative;
+    top: 10px;
 }

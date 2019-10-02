@@ -88,7 +88,7 @@ export default class Users extends Component {
         email:"",
         pass:"",
         setOpen:false,
-        setOpen:false
+        
       }))
       this.handleClose();
       this.componentWillUpdate();

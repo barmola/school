@@ -24,7 +24,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #308FFF !important;
+    color: #00194F !important;
 }
 .inputMargin{
     margin-top: 20px !important;
@@ -32,13 +32,13 @@
 }
 .loginButton{
     margin-top: 40px !important;
-    background-color: #308FFF !important;
+    background-color: #00194F !important;
 }
 
 .createLink{
     margin-top: 60px;
     cursor: pointer;
-    color: #308FFF;
+    color: #00194F;
 }
 
 .loginLink{

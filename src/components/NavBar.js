@@ -14,8 +14,13 @@ export default class NavBar extends Component {
         this.state = {
            
         }
-       
+       this.logout=this.logout.bind(this)
+      
     }
+
+logout(){
+    window.location.reload();
+}
 
     
  
@@ -25,7 +30,8 @@ export default class NavBar extends Component {
         return (
             
                 <nav className="navbar">
-                    <h3><FontAwesomeIcon icon={faSchool}/>  School Database</h3>
+                    <h3> <img src={require("../images/navLogo.png")} className="logo2" />
+                    <Link className="navStyle" exact to="/dashboard" onClick={this.refresh}>School Database</Link> </h3>
                     <ul className="navbar_ul">
                         <Link className="navStyle" exact to="/Students" onClick={this.props.onNavig}>
                         <li ><FontAwesomeIcon icon={faUserTie}/>  Students</li>
@@ -42,8 +48,8 @@ export default class NavBar extends Component {
                         <Link className="navStyle" exact to="/Users" onClick={this.props.onNavig}>
                         <li><FontAwesomeIcon icon={faUser}/>Users  </li>
                         </Link>
-                        <Link className="navStyle" exact to="/login " >
-                        <li><FontAwesomeIcon icon={faPowerOff}/> </li>
+                        <Link className="navStyle" exact to="/login "  refresh="true" onClick={this.logout}>
+                        <li><a href="https://localhost/login"><FontAwesomeIcon icon={faPowerOff}/></a> </li>
                         </Link>
                     </ul>
                 </nav>

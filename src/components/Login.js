@@ -49,7 +49,9 @@ export default class Login extends Component {
         console.log(res);
         if(c<len){
 
-            ReactDOM.render(<App test={true}/>, document.getElementById('root'));
+            ReactDOM.render(
+            <App test={true}/>, document.getElementById('root')
+            );
         }
         else{
             alert("not match");
@@ -89,8 +91,12 @@ export default class Login extends Component {
     render() {
         return (
             <div className="container">
+                {/* <div>
+                    <img src={require("../images/LOGO.png")} className="logo" />
+                </div> */}
                 <Paper className="paper">
                     <div className="input">
+                    <img src={require("../images/LOGO.png")} className="logo" />
                         <h3 className="login">Login to Database</h3>
                         <TextField
                             id="adornment-weight"
@@ -117,7 +123,9 @@ export default class Login extends Component {
                        
                     </div>
                 </Paper>
-
+                {/* <div>
+                    <img src={require("../images/LOGO.png")} className="logo"/>
+                </div> */}
             </div>
         )
     }
