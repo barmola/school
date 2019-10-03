@@ -55,18 +55,16 @@ export default class Workers extends Component {
         this.state = {
              Workers:[],
              Subjects:[],
-             setOpen:false,
              open:false,
              subjectOpen:false,
-             setSubjectOpen:false,
-             setOpenTrash:false,
              openTrash:false,
              name:"",
              age:"",
              designation:"",
              mobile:"",
              isCreate:false,
-             isClicked:false
+             isClicked:false,
+             Search:""
 
         }
         this.handleClickOpen=this.handleClickOpen.bind(this)
@@ -80,11 +78,21 @@ export default class Workers extends Component {
         this.handleTrashOpen=this.handleTrashOpen.bind(this)
         this.handleTrashClose = this.handleTrashClose.bind(this)
         this.refreshForm = this.refreshForm.bind(this)
+        this.updateSearch=this.updateSearch.bind(this)
+
         
     }
 
     refreshForm(){
       this.componentWillMount();
+    }
+
+
+    
+    updateSearch(event){    //Search Function
+      
+      this.setState({Search:event.target.value.substr(0,20)});
+      
     }
 
     componentWillUpdate(){
@@ -139,7 +147,7 @@ export default class Workers extends Component {
              age:"",
              designation:"",
              mobile:"",
-             setOpen:false
+             open:false
       }))
     }catch{
       console.log("Cant Update")
@@ -169,13 +177,11 @@ export default class Workers extends Component {
 
     handleTrashOpen=()=>{
       this.setState({
-        setOpenTrash:true,
         openTrash:true
       })
     }
     handleTrashClose(){
       this.setState({
-        setOpenTrash:false,
         openTrash:false
       })
     }
@@ -192,7 +198,6 @@ export default class Workers extends Component {
 
     handleClickOpen = () => {
        this.setState({
-           setOpen:true,
            open:true
        })
       };
@@ -204,7 +209,6 @@ export default class Workers extends Component {
           age:"",
           designation:"",
           mobile:"",
-            setOpen:false,
             open:false,
             isCreate:false
         })
@@ -212,13 +216,11 @@ export default class Workers extends Component {
       handleClickOpenSubject=()=>{
         this.setState({
           subjectOpen:true,
-          setSubjectOpen:true
         })  
       }
       handleCloseSubject=()=> {
         this.setState({
           subjectOpen:false,
-          setSubjectOpen:false
         })
       }
 
@@ -249,6 +251,14 @@ export default class Workers extends Component {
       this.setState({isClicked:false})
       console.log('filter data=',data2._id);
     }
+
+    
+    let Workers2 =  this.state.Workers.filter((student)=>{        // To Search the Student from Database
+      return student.name.toLowerCase().indexOf(this.state.Search) !==-1||
+      student.age.toString().search(this.state.Search) !==-1 ||
+      student.designation.toLowerCase().indexOf(this.state.Search) !==-1 ||
+      student.mobile.toString().search(this.state.Search) !==-1 ;
+    })
         return (
             <div>
                 <h1 className="Heading">{this.state.Workers.length} Workers<Fab color="primary" onClick={this.refreshForm} className="addButton"><Refresh /></Fab>
@@ -256,6 +266,14 @@ export default class Workers extends Component {
                 <div className="content">
 
       <Paper style={paper}>
+      <TextField  
+       id="adornment-weight"
+      label="Search Anything"
+      className="search"
+      name="search"
+      value={this.state.Search}
+      onChange={this.updateSearch}
+      />
       <Table >
         <TableHead>
           <TableRow>
@@ -269,7 +287,7 @@ export default class Workers extends Component {
           </TableRow>
         </TableHead>
         <TableBody>
-         {this.state.Workers.map((row,index)=>(
+         {Workers2.map((row,index)=>(
            
             <TableRow key={index}>
               <TableCell component="th" scope="row" align="right">{index+1}</TableCell>

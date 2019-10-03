@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {Paper,Container} from '@material-ui/core'
 import "./css/Dashboard.css"
 import {Link} from "react-router-dom"
-
+import axios from 'axios'
+import StudentsC from "./components/Students/Students"
 export default class Dashboard extends Component {
     constructor(props) {
         super(props)
@@ -13,40 +14,46 @@ export default class Dashboard extends Component {
              Teachers:[],
              Buses:[]
         }
-
+        
     }
-    componentDidMount(){
-        fetch("http://localhost:3300/students")
-        .then(response=>response.json())
-        .then((data)=>{
+
+    
+
+
+    componentWillMount(){
+        axios.get("http://localhost:3300/students")
+        .then(response=>{
             this.setState({
-                Students:data
+                Students:response.data
             })
         })
-        fetch("http://localhost:3300/workers")
-        .then(response=>response.json())
-        .then((data)=>{
-          this.setState({
-            Workers:data
-          })
+        
+        axios.get("http://localhost:3300/workers")
+        .then(response=>{
+            this.setState({
+                Workers:response.data
+            })
         })
-        fetch("http://localhost:3300/teacher")
-        .then(response=>response.json())
-        .then((data)=>{
-          this.setState({
-            Teachers:data
-          })
+
+
+        axios.get("http://localhost:3300/teacher")
+        .then(response=>{
+            this.setState({
+                Teachers:response.data
+            })
         })
-        fetch("http://localhost:3300/buses")
-        .then(response=>response.json())
-        .then((data)=>{
-          this.setState({
-            Buses:data
-          })
+
+
+        axios.get("http://localhost:3300/buses")
+        .then(response=>{
+            this.setState({
+                Buses:response.data
+            })
         })
     }
     
     render() {
+  
         return (
             <div>
                 <Container>

@@ -27,7 +27,7 @@
     color: #00194F !important;
 }
 .inputMargin{
-    margin-top: 20px !important;
+    margin-top: 15px !important;
     width: 250px !important;
 }
 .loginButton{
@@ -42,9 +42,9 @@
 }
 
 .loginLink{
-    margin-top: 20px;
+    margin-top: 15px;
     cursor: pointer;
-    color: #308FFF;
+    color: #1C0045;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -63,4 +63,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.error{
+    margin-top: 15px !important;
+    width: 250px !important;
+    border-bottom: 4px solid rgba(255,0,0,0.3) !important;
+    /* background-color: rgba(255,0,0,0.3) !important; */
+    
 }

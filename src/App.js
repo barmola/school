@@ -14,6 +14,8 @@ import Dashboard from "./Dashboard"
 import {BrowserRouter as Router,Switch,Route,Redirect} from "react-router-dom"
 
 
+
+
 export default class App extends Component{
   constructor(props) {
     super(props)
@@ -62,12 +64,12 @@ export default class App extends Component{
   }
 
 
-  editUser=userID=>{
+  editUser=userID=>{      //Passing the Specific Row ID to the User Component to edit and Delete Databse
     this.setState({
-      uID:userID
-    })
+      uID:userID          //This function is not needed this work can be done from the function
+    })                                            //written Below...............Will Remove it after the compeletion of Project
       }
-  editStudent=studentID=>{
+  editStudent=studentID=>{  //Passing the Specific Row ID to the Student or Any  Component to edit and Delete Databse
     this.setState({
       sID:studentID
     })
@@ -76,14 +78,14 @@ export default class App extends Component{
 
 render(){
   
-    const  makefalse=()=>{
-      if(this.state.isLoggedIn){
+    const  makefalse=()=>{        //After logged In Successfully this function will invoke to Hide the Login and Register Box
+      if(this.state.isLoggedIn){        //and will show the Navbar and Other Components
         this.setState({
           isLoggedIn:false,
           isRegister:false,
           isNavbarLogin:true,
           isNavbarLogout:true,
-          removeLoginTrue:false
+          
           
     })
   }
@@ -99,21 +101,22 @@ render(){
         
     <div className="App">
       {this.state.isNavbarLogin &&<NavBar onNavig={this.goto}    />}
-      {this.state.isLoggedIn && <Route path="/login" exact strict render={props => <Login regCall = {this.showRegisterBox} />} />}
+      {this.state.isLoggedIn && <Route path="/login" exact strict render={props => <Login regCall = {this.showRegisterBox} />} />}  
       {this.state.isRegister && <Route render={props => <CreateAccount logCall = {this.showLoginBox} />} />}
       
-  {this.props.test  &&  <div>{makefalse()}{this.state.removeLoginTrue && <Route exact path="/dashboard" render={props => <Dashboard onNavig={this.goto}/>}  />}
+  {this.props.test  &&  <div>{makefalse()}{this.state.removeLoginTrue && <Route exact path="/dashboard" render={props => <Dashboard onNavig={this.goto}/>}   />}
       
-  <Route path="/Students" exact render={props=><Students editStudent={this.editStudent} sid={this.state.sID}/>} />
+  <Route path="/Students" exact render={props=><Students editStudent={this.editStudent} sid={this.state.sID} /> } />
       <Route path="/Teachers" exact render={props=><Teachers editStudent={this.editStudent} sid={this.state.sID}/>}/>
       <Route path="/Workers" exact render={props=><Workers editStudent={this.editStudent} sid={this.state.sID}/>}/>
       <Route path="/Users" exact render={props=><Users editUser={this.editUser} uid={this.state.uID}/>} />
       <Route path="/Buses" exact render={props=><Bus editStudent={this.editStudent} sid={this.state.sID}/>}/>
       <Route path="/" exact component={Login}/>
       
-      
-      
-      </div> } 
+  
+      </div> 
+    
+    } 
      
      
       </div>      

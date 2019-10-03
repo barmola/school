@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import "../css/login_true.css"
-import Paper from '@material-ui/core/Paper';
+import {Paper,Button} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
 
@@ -24,6 +24,9 @@ export default class LoginTrue extends Component {
                     
                            <h2 className="accessText">Login Successfull</h2>
                           <h2 className="accessText">You Have been Granted the access of School Database!</h2>
+                          <h2 className="accessText2">Click Here </h2>
+
+                       
                     </div>
                     </div>
             </div>

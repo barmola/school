@@ -6,7 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {Paper,Button,TextField,Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle,Grid,Select,InputLabel,MenuItem,Input,FormControl} from '@material-ui/core';
+import {Paper,Button,TextField,Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle,Grid,Select,InputLabel,MenuItem,Input,FormControl,TablePagination} from '@material-ui/core';
 import {faUserEdit,faTrash} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Fab from '@material-ui/core/Fab';
@@ -15,25 +15,11 @@ import Refresh from "@material-ui/icons/Refresh"
 import axios from "axios"
 
 
-const useStyles = makeStyles(theme => ({
-    form: {
-      display: 'flex',
-      flexDirection: 'column',
-      margin: 'auto',
-      width: 'fit-content',
-      
-    },
-    formControl: {
-      marginTop: theme.spacing(2),
-      minWidth: 120,
-    },
-    formControlLabel: {
-      marginTop: theme.spacing(1),
-    },
-  }));
+
 
   const paper={
     width:"1000px",
+    marginBottom:"50px"
     
   }
  const dialog={
@@ -55,21 +41,24 @@ export default class Students extends Component {
         this.state = {
              Students:[],
              Subjects:[],
-             setOpen:false,
              open:false,
              subjectOpen:false,
-             setSubjectOpen:false,
-             setOpenTrash:false,
              openTrash:false,
              subject:[],
+             Search:"",
              name:"",
              class:"",
              section:"",
              rollno:"",
              isCreate:false,
-             isClicked:false
+             isClicked:false,
+             page:0,
+             rowsPerPage:5,
+             
 
         }
+  // -------------------------------------------Binding All Functions Before Calling them----------------------------------      
+
         this.handleClickOpen=this.handleClickOpen.bind(this)
         this.handleClickOpenSubject=this.handleClickOpenSubject.bind(this)
         this.handleCloseSubject=this.handleCloseSubject.bind(this)
@@ -81,30 +70,56 @@ export default class Students extends Component {
         this.handleTrashOpen=this.handleTrashOpen.bind(this)
         this.handleTrashClose = this.handleTrashClose.bind(this)
         this.refreshForm = this.refreshForm.bind(this)
+        this.updateSearch=this.updateSearch.bind(this)
+        this.handleChangePage=this.handleChangePage.bind(this);
+        this.handleChangeRowsPage = this.handleChangeRowsPage.bind(this);
         
     }
 
-    refreshForm(){
+
+
+
+    updateSearch(event){    //Search Function
+      
+      this.setState({Search:event.target.value.substr(0,20)});
+      
+    }
+
+    handleChangePage=(event,newPage)=>{  //To change the page of Table
+      this.setState({
+        page:newPage
+      })
+    }
+    handleChangeRowsPage=event=>{ //To set the no. of rows to be displayed in table
+      this.setState({
+        rowsPerPage: event.target.value,
+        page:0
+      })
+  
+    }
+
+    refreshForm(){        //To refresh the API
       this.componentWillMount();
     }
 
     componentWillUpdate(){
       this.componentWillMount();
+      
     }
-    openCreateForm(){
+    openCreateForm(){  //To open the same form for Adding New students
       this.setState({
         isCreate:true
       })
       this.handleClickOpen();
     }
-    onhandleChange(event){
+    onhandleChange(event){    // To store the values of Input Data field
       const name=event.target.name
       const value=event.target.value
       this.setState({
         [name]:value
       })
     }
-    submitData(event){
+    submitData(event){    //To submit the data to the Database
       event.preventDefault()
       this.setState(this.state)
       console.log(this.state)
@@ -120,11 +135,11 @@ export default class Students extends Component {
         rollno:"",
       }))
       this.handleClose();
-      this.componentWillUpdate();
+      this.refreshForm();
 
     }
 
-    async editData(event){
+    async editData(event){    //To to edit the specific field of the Data in Database
       event.preventDefault();
       this.setState(this.state)
       console.log("Edited Data:",this.state)
@@ -143,16 +158,16 @@ export default class Students extends Component {
              class:"",
              section:"",
              rollno:"",
-             setOpen:false
+             open:false
       }))
     }catch{
       console.log("Cant Update")
     }
       this.handleClose();
-      this.componentWillUpdate();
+      this.refreshForm();
     }
 
-    deleteData(event){
+    deleteData(event){      //To delete the Data from Database
       event.preventDefault();
       axios.delete("http://localhost:3300/students/"+data2._id).then(res=>{
         console.log(res.data)
@@ -162,7 +177,7 @@ export default class Students extends Component {
     }
 
     
-    wrapperDelete(id){
+    wrapperDelete(id){      //To delete the specific data from Database
       this.setState({
         isClicked:true
       })
@@ -171,20 +186,18 @@ export default class Students extends Component {
     }
     
 
-    handleTrashOpen=()=>{
+    handleTrashOpen=()=>{   // To open the Delete Dialog Box 
       this.setState({
-        setOpenTrash:true,
         openTrash:true
       })
     }
     handleTrashClose(){
       this.setState({
-        setOpenTrash:false,
         openTrash:false
       })
     }
 
-    wrapper(id){
+    wrapper(id){  //To open form by Clicking on Edit Icon
       this.setState({
         isClicked:true
       })
@@ -194,49 +207,45 @@ export default class Students extends Component {
     }
 
 
-    handleClickOpen = () => {
+    handleClickOpen = () => { // To open Form
        this.setState({
-           setOpen:true,
            open:true
        })
       };
     
-     handleClose = () => {
+     handleClose = () => { // To Close the FORM
         this.setState({
           subject:[],
           name:"",
           class:"",
           section:"",
           rollno:"",
-            setOpen:false,
             open:false,
             isCreate:false
         })
       };
-      handleClickOpenSubject=()=>{
+      handleClickOpenSubject=()=>{ //To open the Select Box of Subjects
         this.setState({
           subjectOpen:true,
-          setSubjectOpen:true
         })  
       }
-      handleCloseSubject=()=> {
+      handleCloseSubject=()=> { // To close the Select Box of Subjects
         this.setState({
           subjectOpen:false,
-          setSubjectOpen:false
         })
       }
 
       
 
-    componentWillMount(){
-        fetch("http://localhost:3300/students")
+    componentWillMount(){   // This state will mount or re render after every change in States
+        fetch("http://localhost:3300/students")   // To fetch the details of Students from Database
         .then(response=>response.json())
         .then((data)=>{
             this.setState({
                 Students:data
             })
         })
-        fetch("http://localhost:3300/subjects")
+        fetch("http://localhost:3300/subjects") //To fetch the details of Subjects from Database
         .then(response=>response.json())
         .then((data)=>{
           this.setState({
@@ -248,7 +257,7 @@ export default class Students extends Component {
     render() {
       var data = [];
       
-      if(this.state.isClicked){
+      if(this.state.isClicked){       // To get the Row Id of specific Student on CLicking on Edit or Delete Button
       data=(this.state.Students.filter((st)=>{
         // console.log("props:",this.props.uid,"row id:",st._id)
        
@@ -259,6 +268,14 @@ export default class Students extends Component {
       this.setState({isClicked:false})
       console.log('filter data=',data2._id);
     }
+    let Students2 =  this.state.Students.filter((student)=>{        // To Search the Student from Database
+      return student.name.toLowerCase().indexOf(this.state.Search) !==-1||
+      student.class.indexOf(this.state.Search) !==-1 ||
+      student.section.toLowerCase().indexOf(this.state.Search) !==-1 ||
+      student.rollno.toString().search(this.state.Search) !==-1;
+
+     
+    })
         return (
             <div>
                 <h1 className="Heading">{this.state.Students.length} Students<Fab color="primary" onClick={this.refreshForm} className="addButton"><Refresh /></Fab>
@@ -266,7 +283,16 @@ export default class Students extends Component {
                 <div className="content">
 
       <Paper style={paper}>
-      <Table >
+      <TextField  
+       id="adornment-weight"
+      label="Search Anything"
+      className="search"
+      name="search"
+      value={this.state.Search}
+      onChange={this.updateSearch}
+      />
+{/* -----------------------------------------------------Table----------------------------------------------------- */}
+      <Table stickyHeader >
         <TableHead>
           <TableRow>
             <TableCell align="right">S.No</TableCell>
@@ -280,9 +306,10 @@ export default class Students extends Component {
           </TableRow>
         </TableHead>
         <TableBody>
-         {this.state.Students.map((row,index)=>(
-           
-            <TableRow key={index}>
+
+        {Students2.map((row,index)=>(
+
+            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
               <TableCell component="th" scope="row" align="right">{index+1}</TableCell>
               <TableCell align="right">{row.name}</TableCell>
               <TableCell align="right">{row.class}</TableCell>
@@ -305,6 +332,21 @@ export default class Students extends Component {
           ))}
         </TableBody>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[5,10, 25, 100]}
+        component="div"
+        count={this.state.Students.length}
+        rowsPerPage={this.state.rowsPerPage}
+        page={this.state.page}
+        backIconButtonProps={{
+          'aria-label': 'previous page',
+        }}
+        nextIconButtonProps={{
+          'aria-label': 'next page',
+        }}
+        onChangePage={this.handleChangePage}
+        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+      />
     </Paper>
 
 
@@ -326,9 +368,9 @@ export default class Students extends Component {
 
 
 
+{/* ----------------------------------------------Adding or Editing Dialog Box------------------------------------------------------ */}
 
-
-    <Dialog open={this.state.open} onClose={this.handleClose} className="dialog"
+    <Dialog open={this.state.open} onClose={this.handleClose} className="dialog"      // Edit or Add Dialog Box
      fullWidth="true"
      maxWidth="lg">
         <DialogTitle id="form-dialog-title">{this.state.isCreate? "Add Student":"Edit",<span className="edit2"> {data2.name}</span>}</DialogTitle>
@@ -422,9 +464,9 @@ export default class Students extends Component {
 
 
 
+{/* ----------------------------------------------------------Delete Dialog Box----------------------------------- */}
 
-
-      <Dialog
+      <Dialog         // Delete Dialog Box 
         open={this.state.openTrash}
         onClose={this.handleTrashClose}
       >

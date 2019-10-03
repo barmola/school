@@ -57,13 +57,9 @@ export default class Bus extends Component {
              
                 Buses:[],
                 Workers:[],
-             setOpen:false,
              open:false,
              driverOpen:false,
-             setDriverOpen:false,
              conductorOpen:false,
-             setConductorOpen:false,
-             setOpenTrash:false,
              openTrash:false,
              bno:"",
              to:"",
@@ -150,7 +146,7 @@ export default class Bus extends Component {
              driver:"",
              conductor:"",
              number:"",
-             setOpen:false
+             open:false
       }))
     }catch{
       console.log("Cant Update")
@@ -180,13 +176,11 @@ export default class Bus extends Component {
 
     handleTrashOpen=()=>{
       this.setState({
-        setOpenTrash:true,
         openTrash:true
       })
     }
     handleTrashClose(){
       this.setState({
-        setOpenTrash:false,
         openTrash:false
       })
     }
@@ -203,7 +197,6 @@ export default class Bus extends Component {
 
     handleClickOpen = () => {
        this.setState({
-           setOpen:true,
            open:true
        })
       };
@@ -216,7 +209,6 @@ export default class Bus extends Component {
           driver:"",
           conductor:"",
           number:"",
-            setOpen:false,
             open:false,
             isCreate:false
         })
@@ -224,25 +216,21 @@ export default class Bus extends Component {
       handleClickOpenDriver=()=>{
         this.setState({
           driverOpen:true,
-          setDriverOpen:true
         })  
       }
       handleClickOpenConductor=()=>{
         this.setState({
           conductorOpen:true,
-          setConductorOpen:true
         })  
       }
       handleCloseDriver=()=> {
         this.setState({
           driverOpen:false,
-          setDriverOpen:false
         })
       }
       handleCloseConductor=()=> {
         this.setState({
           conductorOpen:false,
-          setConductorOpen:false
         })
       }
 
@@ -395,7 +383,7 @@ export default class Bus extends Component {
 
                 <Grid item xs={2}>
                 <FormControl style={formControl}>
-          <InputLabel htmlFor="select-multiple">Driver</InputLabel>
+          <InputLabel htmlFor="select-multiple">Conductor</InputLabel>
         <Select
           open={this.state.conductorOpen}
           onClose={this.handleCloseConductor}

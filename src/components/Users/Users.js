@@ -41,11 +41,10 @@ export default class Users extends Component {
              username:"",
              name:"",
              email:"",
+             Search:"",
              pass:"",
-             setOpen:false,
              open:false,
              openTrash:false,
-             setOpenTrash:false,
              isCliked:false,
             
         }
@@ -56,11 +55,19 @@ export default class Users extends Component {
         this.handleChange=this.handleChange.bind(this)
         this.onEditSubmit=this.onEditSubmit.bind(this)
         this.deleteData=this.deleteData.bind(this)
+        this.updateSearch=this.updateSearch.bind(this)
         
     }
 
   componentWillUpdate(){
     this.componentWillMount();
+  }
+
+
+  updateSearch(event){    //Search Function
+      
+    this.setState({Search:event.target.value.substr(0,20)});
+    
   }
 
     handleChange(event){
@@ -87,7 +94,7 @@ export default class Users extends Component {
         name:"",
         email:"",
         pass:"",
-        setOpen:false,
+        open:false,
         
       }))
       this.handleClose();
@@ -124,7 +131,6 @@ wrapperDelete(id){
     handleClickOpen = ()=> {
      
        this.setState({
-           setOpen:true,
            open:true,
        })
      
@@ -134,7 +140,6 @@ wrapperDelete(id){
 
     handleTrashOpen=()=>{
       this.setState({
-        setOpenTrash:true,
         openTrash:true
       })
     }
@@ -142,14 +147,12 @@ wrapperDelete(id){
     
      handleClose = () => {
         this.setState({
-            setOpen:false,
             open:false,
             
         })
       };
       handleTrashClose=()=>{
         this.setState({
-          setOpenTrash:false,
           openTrash:false
         })
       }
@@ -173,12 +176,21 @@ wrapperDelete(id){
         // console.log("props:",this.props.uid,"row id:",st._id)
        
           return(this.props.uid.toString().search(st._id.toString())!==-1)
+
       }))
      
       data2=data[0];
       
       // console.log('filter data=',data);
     }
+
+
+    let Users2 =  this.state.Students.filter((student)=>{        // To Search the Student from Database
+      return student.username.toLowerCase().indexOf(this.state.Search) !==-1||
+      student.email.toLowerCase().indexOf(this.state.Search) !==-1 ||
+      student.name.toLowerCase().indexOf(this.state.Search) !==-1;
+    })
+
         return (
           
             <div>
@@ -188,7 +200,15 @@ wrapperDelete(id){
                 <div className="content">
 
                 <Paper className="table">
-      <Table >
+                <TextField  
+       id="adornment-weight"
+      label="Search Anything"
+      className="search"
+      name="search"
+      value={this.state.Search}
+      onChange={this.updateSearch}
+      />
+     <Table stickyHeader >
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
@@ -200,7 +220,7 @@ wrapperDelete(id){
           </TableRow>
         </TableHead>
         <TableBody>
-         {this.state.Students.map((row,index)=>(
+         {Users2.map((row,index)=>(
             <TableRow key={index}>
               <TableCell component="th" scope="row">{row.name}</TableCell>
               <TableCell align="right">{row.username}</TableCell>
